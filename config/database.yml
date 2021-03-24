@@ -1,25 +1,39 @@
-# SQLite. Versions 3.8.0 and up are supported.
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-#
 default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+  adapter: mysql2
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 50 } %>
+  socket: /tmp/mysql.sock
+  encoding: utf8mb4
+  collation: utf8mb4_general_ci
+  # strict: false
+  # strict_mode: false
+  idle_timeout: 600
+  timeout: 300000
+
+  # aurora failever 대응. mysql2-aurora gem config
+  reconnect: true
+  aurora_max_retry: 5
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  database: ihavecat
+  # 개발DB
+  host: <%= Rails.application.credentials.dig(('development').to_sym, :database, :host) %>
+  port: <%= Rails.application.credentials.dig(('development').to_sym, :database, :port) %>
+  username: root
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+dev:
+  <<: *default
+  database: ihavecat
+  # 개발DB
+  host: <%= Rails.application.credentials.dig(('development').to_sym, :database, :host) %>
+  port: <%= Rails.application.credentials.dig(('development').to_sym, :database, :port) %>
+  username: <%= Rails.application.credentials.dig(('development').to_sym, :database, :user) %>
+  password: <%= Rails.application.credentials.dig(('development').to_sym, :database, :password) %>
+
 test:
   <<: *default
-  database: db/test.sqlite3
+  database:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  database:
