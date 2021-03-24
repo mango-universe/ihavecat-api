@@ -13,7 +13,23 @@ Rails.application.routes.draw do
   # Sidekiq::Web.set :session_secret, Rails.application.credentials[:secret_key_base]
   mount Sidekiq::Web, at: "/sidekiq"
 
+  get 'swagger' => 'swagger#index'
+
   get '/health', to: proc { [200, {}, ['']] }
+
+  devise_for :users
+
+  def api_version(version, default = false, &routes)
+    api_constraint = ApiConstraints.new(version: version, default: default)
+    scope(module: "v#{version}", path: "v#{version}", constraints: api_constraint, &routes)
+  end
+
+  namespace :api, defaults: {format: :json} do
+    api_version(1, true) do
+
+    end
+  end
+
 
 
 end
