@@ -39,4 +39,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :async,
          :recoverable, :rememberable, :trackable, :validatable
+
+  alias_attribute :password, :encrypted_password
+  before_save :encrypt_password
+
+  private
+
+  def encrypt_password
+    byebug
+    self.encrypted_password = Digest::SHA256.hexdigest(self.encrypted_password).upcase if self.will_save_change_to_encrypted_password?
+  end
 end
