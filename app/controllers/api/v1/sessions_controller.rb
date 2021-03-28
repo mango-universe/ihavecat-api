@@ -19,7 +19,9 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   before_action :configure_sign_in_params, only: [:create]
   before_action :authenticate_user!, only: [:create]
-  after_action :update_last_login_date, only: [:create]
+  after_action :update_current_login_date, only: [:create]
+  after_action :update_last_login_date, only: [:destroy]
+  before_action :authenticate_user_from_access_token!, only: [:destroy]
   before_action :set_meta
 
   # GET /resource/sign_in
@@ -77,12 +79,21 @@ class Api::V1::SessionsController < Devise::SessionsController
     @current_user = @current_user.decorate
   end
 
-  def update_last_login_date
+  def update_current_login_date
     @current_user.update!(
       online: true,
       current_sign_in_at: Time.current,
       current_sign_in_ip: @current_user.request_ip,
       sign_in_count: @current_user.sign_in_count+1) unless @error.present?
+  end
+
+  def update_last_login_date
+    @current_user.update!(
+      access_token: '',
+      refresh_token: '',
+      online: false,
+      last_sign_in_at: Time.current,
+      last_sign_in_ip: request.ip)
   end
 
   def session_success_response
@@ -106,4 +117,21 @@ class Api::V1::SessionsController < Devise::SessionsController
       result_msg: result_msg
     }
   end
+
+  def authenticate_user_from_access_token!
+    token = request.headers['access-token']
+    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless token.present?
+
+    jwt = JsonWebToken.decode(token)
+    uid = jwt.dig('jti')
+    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'user_agent').eql?(request.headers['user-agent'])
+
+    @current_user = User.find_by(userid: uid, access_token: token)
+    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless @current_user
+
+    @current_user.request_ip = request.ip
+    @current_user.user_agent = request.user_agent
+    @current_user = @current_user.decorate
+  end
+
 end

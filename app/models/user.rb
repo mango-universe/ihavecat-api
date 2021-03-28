@@ -12,6 +12,9 @@
 #  description            :string(255)      default(""), not null
 #  online                 :boolean          default(FALSE), not null
 #  birth                  :datetime
+#  user_status            :string(255)
+#  access_token           :string(1024)     default(""), not null
+#  refresh_token          :string(1024)     default(""), not null
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime

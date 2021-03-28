@@ -23,7 +23,6 @@ class BaseApiController < ActionController::API
 
   def self.add_common_params(api)
     api.param :header, 'access-token', :string, :required, 'Authentication token'
-    api.param :header, 'uuid', :string, :optional, 'device uuid'
   end
 
   def self.add_common_response(api)
