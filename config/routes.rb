@@ -17,7 +17,19 @@ Rails.application.routes.draw do
 
   get '/health', to: proc { [200, {}, ['']] }
 
-  devise_for :users
+  devise_for  :users,
+              :path => 'api/v1/users',
+              :controllers => {
+                registrations: 'api/v1/registrations',
+                sessions: 'api/v1/sessions',
+                passwords: 'api/v1/passwords',
+                confirmations: 'api/v1/confirmations',
+              }
+
+  devise_scope :user do
+    post 'api/v1/users/validate_email' => 'api/v1/registrations#validate_email'
+    post 'api/v1/users/validate_nickname' => 'api/v1/registrations#validate_nickname'
+  end
 
   def api_version(version, default = false, &routes)
     api_constraint = ApiConstraints.new(version: version, default: default)
@@ -26,13 +38,6 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     api_version(1, true) do
-      resources :users do
-        collection do
-          post :validate_email
-          post :validate_nickname
-        end
-      end
-
 
     end
   end

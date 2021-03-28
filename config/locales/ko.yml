@@ -4,5 +4,18 @@ ko:
       common_error: '에러가 발생했습니다.'
       invalid_parameter_error: '파라미터 값이 유효하지 않습니다.'
       invalid_token_response: '토큰이 유효 하지 않습니다.'
-      duplicate_email: '이미 가입된 이메일 입니다.'
-      duplicate_nickname: '이미 가입된 닉네임 입니다.'
+      registrations:
+        duplicate_email: '이미 가입된 이메일 입니다.'
+        duplicate_nickname: '이미 가입된 닉네임 입니다.'
+      sessions:
+        login_failed: 'Email 혹은 Password가 일치 하지 않습니다.'
+        not_exist_login_permission: '이메일 인증이 완료되지 않았습니다.'
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: '이미 등록된 이메일 입니다.'
+            nickname:
+              taken: '이미 등록된 닉네임 입니다.'

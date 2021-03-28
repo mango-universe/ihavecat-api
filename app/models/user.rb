@@ -32,6 +32,8 @@
 #  updated_at             :datetime         not null
 #
 class User < ApplicationRecord
+  include AASM
+
   acts_as_paranoid
   rolify
 
@@ -40,13 +42,56 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :async,
          :recoverable, :rememberable, :trackable, :validatable
 
-  alias_attribute :password, :encrypted_password
-  before_save :encrypt_password
+  attr_accessor :request_ip, :user_agent
+
+  ACCESS_TOKEN_DURATION = 24 * 60 * 60
+  REFRESH_TOKEN_DURATION = 15 * 24 * 60 * 60
+
+  validates :nickname, uniqueness: true
+
+  aasm column: 'user_status' do
+    state :waiting, init: true # 가입 확인
+    state :actived             # 가입 승인
+    state :rejected            # 가입 승인 거절
+    state :banned              # 차단
+    state :leaved              # 탈퇴
+    state :dormanted           # 휴면
+
+    event :leave, before: [:invalidate_password] do
+      transitions from: [:waiting, :active, :rejected], to: :leaved # 차단/휴면 상태에서는 탈퇴 불가
+    end
+  end
+
+  def generate_tokens
+    self.access_token = generate_jwt_token(ACCESS_TOKEN_DURATION)
+    self.refresh_token = generate_jwt_token(REFRESH_TOKEN_DURATION, SecureRandom.hex(16))
+    raise ApiExceptions::CustomException.new(:service_unavailable, 'token create error.') unless self.access_token and self.refresh_token
+  end
 
   private
 
-  def encrypt_password
-    byebug
-    self.encrypted_password = Digest::SHA256.hexdigest(self.encrypted_password).upcase if self.will_save_change_to_encrypted_password?
+  def generate_jwt_token(duration, key='')
+    issued_at = not_before = Time.current.to_i
+    expire = not_before + duration
+    jwt = {
+      iss: 'ihavecat.net',
+      jti: email,
+      iat: issued_at,
+      nbf: not_before,
+      exp: expire,
+      data: {
+        ip: request_ip,
+        user_agent: user_agent,
+        key: key,
+      }
+    }
+
+    JsonWebToken.encode(jwt)
   end
+
+  # 유저 탈퇴시 처리 : invalidate_password, deny_permission
+  def invalidate_password
+    self.encrypted_password = 'abc' + self.encrypted_password
+  end
+
 end
