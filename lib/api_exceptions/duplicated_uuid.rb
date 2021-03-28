@@ -4,7 +4,7 @@ module ApiExceptions
 
     def initialize(userid)
       super()
-      @resultMsg = @resultMsg.gsub('%{userid}', userid)
+      @result_msg = @result_msg.gsub('%{userid}', userid)
     end
   end
 end

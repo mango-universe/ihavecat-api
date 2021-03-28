@@ -3,14 +3,14 @@
 module ApiExceptions
   class CustomException < StandardError
     # include ActiveModel::Serialization
-    attr_reader :status, :code, :result, :alertType, :resultMsg
+    attr_reader :status, :code, :result, :alert_type, :result_msg
 
     def initialize(status, msg)
       @status = status
       @code = -1
       @result = 'fail'
-      @alertType = 1
-      @resultMsg = msg
+      @alert_type = 1
+      @result_msg = msg
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_24_150652) do
+ActiveRecord::Schema.define(version: 2021_03_28_163252) do
 
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "title"
@@ -68,6 +68,9 @@ ActiveRecord::Schema.define(version: 2021_03_24_150652) do
     t.string "description", default: "", null: false
     t.boolean "online", default: false, null: false
     t.datetime "birth"
+    t.string "user_status"
+    t.string "access_token", limit: 1024, default: "", null: false
+    t.string "refresh_token", limit: 1024, default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

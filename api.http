@@ -39,14 +39,14 @@
 
 ###
 # 로그인
-POST {{domain}}/api/v1/session
+POST {{domain}}/api/v1/users/sign_in.json
 Content-Type: application/json
 User-Agent: Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
 Referer: https://partner.sinsangmarket.kr
 
 {
-  "user": "cebr",
-  "password": "rsx07p3"
+  "email": "hyogol6@naver.com",
+  "password": "tt"
 }
 
 ###
@@ -68,20 +68,20 @@ User-Agent: Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) Appl
 Referer: https://partner.sinsangmarket.kr
 
 {
-  "nickname": "ryan"
+  "nickname": "hyogol"
 }
 
 ###
 # 회원가입
-POST {{domain}}/api/v1/users
+POST {{domain}}/api/v1/users.json
 Content-Type: application/json
 User-Agent: Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
 Referer: https://partner.sinsangmarket.kr
 
 {
   "user": {
-    "email": "hyogol@naver.com",
-    "password": "Dustp007^^",
-    "nickname": "hyogol"
+    "email": "hyogol15@naver.com",
+    "password": "tt",
+    "nickname": "hyogol15"
   }
 }

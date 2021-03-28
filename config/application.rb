@@ -31,7 +31,7 @@ module IhavecatApi
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins   '*'
-        resource  '/api/*',
+        resource  '*',
                   headers: :any,
                   methods: %i[post put delete get patch options],
                   credentials: false,
