@@ -11,10 +11,10 @@ Swagger::Docs::Config.register_apis({
         :camelize_model_properties => false,
         :attributes => {
             :info => {
+                "title" => "Ihavecat API",
+                "description" => "Ihavecat API",
                 "version" => "1.0.0",
-                "title" => "ihavecat API",
-                "description" => "ihavecat API",
-                "contact" => "hallo7609@gmail.com",
+                "contact" => "hyogol@hotmail.com",
                 "license" => "Apache 2.0",
                 "licenseUrl" => "http://api.apache.org/licenses/LICENSE-2.0.html"
             }

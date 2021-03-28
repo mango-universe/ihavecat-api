@@ -2,18 +2,19 @@
 
 class Api::V1::RegistrationsController < Devise::RegistrationsController
 
-  swagger_controller :registratinos, 'Registration Management'
+  swagger_controller :registrations, 'Registration Management'
 
   swagger_api :create do |api|
     summary '회원 가입'
-    param :form, "email", :string, :required
-    param :form, "password", :string, :required
-    param :form, "password_confirmation", :string, :required
-    param :form, "nickname", :string, :required
-    param :form, "username", :string, :optional
-    param :form, "avatar", :string, :optional
-    param :form, "description", :string, :optional
-    param :form, "birth", :string, :optional
+    param :form, "user[email]", :string, :required
+    param :form, "user[password]", :string, :required
+    param :form, "user[password_confirmation]", :string, :required
+    param :form, "user[nickname]", :string, :required
+    param :form, "user[username]", :string, :optional
+    param :form, "user[avatar]", :string, :optional
+    param :form, "user[description]", :string, :optional
+    param :form, "user[birth]", :string, :optional
+    BaseApiController.add_common_response(api)
   end
 
   # before_action :configure_sign_up_params, only: [:create]
