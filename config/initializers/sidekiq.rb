@@ -1,4 +1,4 @@
-frozen_string_literal: true
+# frozen_string_literal: true
 
 namespace = Rails.application.credentials.dig(Rails.env.to_sym, :sidekiq_redis, :redis_namespace) { nil }
 redis_params = { url: Rails.application.credentials.dig(Rails.env.to_sym, :sidekiq_redis, :redis_url) }
