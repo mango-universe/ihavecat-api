@@ -38,7 +38,7 @@ test:
 production:
   <<: *default
   database: ihavecat
-  host: <%= Rails.application.credentials.dig(('development').to_sym, :database, :host) %>
-  port: <%= Rails.application.credentials.dig(('development').to_sym, :database, :port) %>
-  username: <%= Rails.application.credentials.dig(('development').to_sym, :database, :user) %>
-  password: <%= Rails.application.credentials.dig(('development').to_sym, :database, :password) %>
+  host: <%= Rails.application.credentials.dig(('production').to_sym, :database, :host) %>
+  port: <%= Rails.application.credentials.dig(('production').to_sym, :database, :port) %>
+  username: <%= Rails.application.credentials.dig(('production').to_sym, :database, :user) %>
+  password: <%= Rails.application.credentials.dig(('production').to_sym, :database, :password) %>
