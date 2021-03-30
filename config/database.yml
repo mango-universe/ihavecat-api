@@ -19,7 +19,8 @@ development:
   # 개발DB
   host: <%= Rails.application.credentials.dig(('development').to_sym, :database, :host) %>
   port: <%= Rails.application.credentials.dig(('development').to_sym, :database, :port) %>
-  username: root
+  username: <%= Rails.application.credentials.dig(('development').to_sym, :database, :user) %>
+  password: <%= Rails.application.credentials.dig(('development').to_sym, :database, :password) %>
 
 dev:
   <<: *default
@@ -36,4 +37,8 @@ test:
 
 production:
   <<: *default
-  database:
+  database: ihavecat
+  host: <%= Rails.application.credentials.dig(('development').to_sym, :database, :host) %>
+  port: <%= Rails.application.credentials.dig(('development').to_sym, :database, :port) %>
+  username: <%= Rails.application.credentials.dig(('development').to_sym, :database, :user) %>
+  password: <%= Rails.application.credentials.dig(('development').to_sym, :database, :password) %>
