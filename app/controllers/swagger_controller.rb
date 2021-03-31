@@ -5,7 +5,7 @@ class SwaggerController < ActionController::Base
   http_basic_authenticate_with name: Rails.application.credentials.dig(:swagger, :id), password: Rails.application.credentials.dig(:swagger, :password)
 
   def index
-    render file: Rails.root.join("public", "404"), layout: false, status: "404" and return if Rails.env.production?
+    # render file: Rails.root.join("public", "404"), layout: false, status: "404" and return if Rails.env.production?
 
     response.headers["Cache-Control"] = "no-cache, no-store"
     response.headers["Pragma"] = "no-cache"
