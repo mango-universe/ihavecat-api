@@ -6,12 +6,10 @@ else
 end
 AddMissingUniqueIndices.class_eval do
   def self.up
-    # add_index ActsAsTaggableOn.tags_table, :name, unique: true
+    add_index ActsAsTaggableOn.tags_table, :name, unique: true
 
-    add_reference :taggings, :tag, index: true, foreign_key: true, after: :id
-
-    # remove_index ActsAsTaggableOn.taggings_table, :tag_id if index_exists?(ActsAsTaggableOn.taggings_table, :tag_id)
-    # remove_index ActsAsTaggableOn.taggings_table, name: 'taggings_taggable_context_idx'
+    remove_index ActsAsTaggableOn.taggings_table, :tag_id if index_exists?(ActsAsTaggableOn.taggings_table, :tag_id)
+    remove_index ActsAsTaggableOn.taggings_table, name: 'taggings_taggable_context_idx'
     add_index ActsAsTaggableOn.taggings_table,
               [:tag_id, :taggable_id, :taggable_type, :context, :tagger_id, :tagger_type],
               unique: true, name: 'taggings_idx'
