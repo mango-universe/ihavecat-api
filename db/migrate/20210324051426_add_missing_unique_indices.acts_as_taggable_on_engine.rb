@@ -6,7 +6,7 @@ else
 end
 AddMissingUniqueIndices.class_eval do
   def self.up
-    add_index ActsAsTaggableOn.tags_table, :name, unique: true
+    # add_index ActsAsTaggableOn.tags_table, :name, unique: true
 
     remove_reference :taggings, :tag, index: true, foreign_key: true
 
