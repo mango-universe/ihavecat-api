@@ -1271,8 +1271,7 @@ GEM
       ast (~> 2.4.1)
     polyglot (0.3.5)
     public_suffix (4.0.6)
-    puma (5.2.2)
-      nio4r (~> 2.0)
+    puma (3.12.6)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
     raabro (1.4.0)
@@ -1467,7 +1466,7 @@ DEPENDENCIES
   oj (~> 3.9, >= 3.9.2)
   paper_trail (~> 11.1)
   paranoia (~> 2.4, >= 2.4.3)
-  puma (~> 5.2, >= 5.2.2)
+  puma (~> 3.11)
   pundit (~> 2.1)
   rack-attack (~> 5.0)
   rack-cors
