@@ -3,8 +3,8 @@
 Swagger::Docs::Config.base_api_controller = ActionController::API
 Swagger::Docs::Config.register_apis({
     "1.0" => {
-        # :api_file_path => "public",
-        :api_file_path => "public/swagger",
+        :api_file_path => "public",
+        # :api_file_path => "public/swagger",
         :base_path => ENV["SWAGGER_URL"],
         :clean_directory => true,
         :formatting => :pretty,
