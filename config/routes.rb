@@ -13,9 +13,10 @@ Rails.application.routes.draw do
   # Sidekiq::Web.set :session_secret, Rails.application.credentials[:secret_key_base]
   mount Sidekiq::Web, at: "/sidekiq"
 
-  get 'swagger' => 'swagger#index'
-
   get '/health', to: proc { [200, {}, ['']] }
+
+  root to: 'swagger#index'
+  get 'swagger' => 'swagger#index'
 
   devise_for  :users,
               :path => 'api/v1/users',
