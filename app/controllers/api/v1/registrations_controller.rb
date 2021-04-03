@@ -17,6 +17,18 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     BaseApiController.add_common_response(api)
   end
 
+  swagger_api :validate_email do |api|
+    summary '이메일 중복체크'
+    param :form, "email", :string, :required
+    BaseApiController.add_common_response(api)
+  end
+
+  swagger_api :validate_nickname do |api|
+    summary '닉네임 중복체크'
+    param :form, "nickname", :string, :required
+    BaseApiController.add_common_response(api)
+  end
+
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
   before_action :set_meta
