@@ -42,7 +42,7 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :async,
+  devise :database_authenticatable, :registerable, :async, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessor :request_ip, :user_agent
@@ -60,10 +60,16 @@ class User < ApplicationRecord
     state :leaved              # 탈퇴
     state :dormanted           # 휴면
 
+    event :activate do
+      transitions from: [:waiting, :rejected], to: :actived # 차단/휴면 상태에서는 승인 불가
+    end
+
     event :leave, before: [:invalidate_password] do
       transitions from: [:waiting, :active, :rejected], to: :leaved # 차단/휴면 상태에서는 탈퇴 불가
     end
   end
+
+  before_update :activate, if: Proc.new { |t| t.confirmed_at_changed? and !t.confirmed_at_change[1].nil? }
 
   def generate_tokens
     self.access_token = generate_jwt_token(ACCESS_TOKEN_DURATION)

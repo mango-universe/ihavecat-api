@@ -9,7 +9,7 @@ ko:
         duplicate_nickname: '이미 가입된 닉네임 입니다.'
       sessions:
         login_failed: 'Email 혹은 Password가 일치 하지 않습니다.'
-        not_exist_login_permission: '이메일 인증이 완료되지 않았습니다.'
+        not_exist_login_permission: '이메일 인증이 완료되지 않았거나 가입이 승인되지 않았습니다.'
   activerecord:
     errors:
       models:

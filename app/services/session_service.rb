@@ -9,7 +9,7 @@ class SessionService
   end
 
   def authorize
-    # raise ApiExceptions::NotExistLoginPermission.new if !current_user.actived? or current_user.confirmed_at.nil?
+    raise ApiExceptions::NotExistLoginPermission.new if !current_user.actived? or current_user.confirmed_at.nil?
   end
 
   def set_dto(session_dto)

@@ -12,6 +12,8 @@ module ApiExceptions
       ERROR_DESCRIPTION.call(1, 1001, I18n.t('common.messages.sessions.login_failed')),
       "NotAllowDevice" =>
       ERROR_DESCRIPTION.call(1, 1002, I18n.t('common.messages.sessions.not_allow_device')),
+      "NotExistLoginPermission" =>
+      ERROR_DESCRIPTION.call(1, 1003, I18n.t('common.messages.sessions.not_exist_login_permission')),
     }
 
     def initialize
