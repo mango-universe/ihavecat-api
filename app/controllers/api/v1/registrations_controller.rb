@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::RegistrationsController < Devise::RegistrationsController
+class Api::V1::RegistrationsController < BaseDeviseController
 
   swagger_controller :registrations, 'Registration Management'
 
@@ -14,6 +14,18 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
     param :form, "user[avatar]", :string, :optional
     param :form, "user[description]", :string, :optional
     param :form, "user[birth]", :string, :optional
+    BaseApiController.add_common_response(api)
+  end
+
+  swagger_api :validate_email do |api|
+    summary '이메일 중복체크'
+    param :form, "email", :string, :required
+    BaseApiController.add_common_response(api)
+  end
+
+  swagger_api :validate_nickname do |api|
+    summary '닉네임 중복체크'
+    param :form, "nickname", :string, :required
     BaseApiController.add_common_response(api)
   end
 
@@ -114,35 +126,5 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       :description,
       :birth
     )
-  end
-
-  def set_meta
-    @meta = meta_status
-  end
-
-  def meta_status(result: 'ok', code: 0, alert_type: 0, result_msg: '')
-    {
-      result: result,
-      alert_type: alert_type,
-      result_msg: result_msg
-    }
-  end
-
-  def render_response(resource: {}, meta: {})
-    meta = meta.merge(meta_status)
-    resource = resource.merge({meta: meta})
-    render json: resource
-  end
-
-  def render_error(status, message, data = nil)
-    message = message.full_messages.first if message.respond_to?('full_messages')
-    response = {
-      result: 'fail',
-      code: -1,
-      alert_type: 1,
-      result_msg: message
-    }
-    response = response.merge(data) if data
-    render json: {meta: response}, status: status
   end
 end

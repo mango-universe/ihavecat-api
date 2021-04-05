@@ -93,6 +93,88 @@
           "method": "post"
         }
       ]
+    },
+    {
+      "path": "/api/v1/users/validate_email",
+      "operations": [
+        {
+          "summary": "이메일 중복체크",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "email",
+              "type": "string",
+              "description": null,
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "Forbidden"
+            },
+            {
+              "code": 404,
+              "responseModel": null,
+              "message": "Not Found"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
+            }
+          ],
+          "nickname": "Api::V1::Registrations#validate_email",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/users/validate_nickname",
+      "operations": [
+        {
+          "summary": "닉네임 중복체크",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "nickname",
+              "type": "string",
+              "description": null,
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "Forbidden"
+            },
+            {
+              "code": 404,
+              "responseModel": null,
+              "message": "Not Found"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "Not Acceptable"
+            }
+          ],
+          "nickname": "Api::V1::Registrations#validate_nickname",
+          "method": "post"
+        }
+      ]
     }
   ],
   "authorizations": null

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::SessionsController < Devise::SessionsController
+class Api::V1::SessionsController < BaseDeviseController
 
   swagger_controller :sessions, 'Session Management'
 
@@ -104,34 +104,4 @@ class Api::V1::SessionsController < Devise::SessionsController
       render status: :not_acceptable
     end
   end
-
-  def set_meta
-    @meta = meta_status
-  end
-
-  def meta_status(result: 'ok', code: 0, alert_type: 0, result_msg: '')
-    {
-      result: result,
-      code: code,
-      alert_type: alert_type,
-      result_msg: result_msg
-    }
-  end
-
-  def authenticate_user_from_access_token!
-    token = request.headers['access-token']
-    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless token.present?
-
-    jwt = JsonWebToken.decode(token)
-    uid = jwt.dig('jti')
-    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'user_agent').eql?(request.headers['user-agent'])
-
-    @current_user = User.find_by(userid: uid, access_token: token)
-    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless @current_user
-
-    @current_user.request_ip = request.ip
-    @current_user.user_agent = request.user_agent
-    @current_user = @current_user.decorate
-  end
-
 end
