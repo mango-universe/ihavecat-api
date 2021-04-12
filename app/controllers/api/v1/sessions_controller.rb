@@ -21,7 +21,7 @@ class Api::V1::SessionsController < BaseDeviseController
   before_action :authenticate_user!, only: [:create]
   after_action :update_current_login_date, only: [:create]
   after_action :update_last_login_date, only: [:destroy]
-  before_action :authenticate_user_from_access_token!, only: [:destroy]
+  before_action :authenticate_user_from_token!, only: [:destroy]
   before_action :set_meta
 
   # GET /resource/sign_in

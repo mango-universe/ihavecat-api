@@ -38,6 +38,8 @@ class User < ApplicationRecord
   include AASM
 
   acts_as_paranoid
+  acts_as_taggable
+  acts_as_reader
   rolify
 
   # Include default devise modules. Others available are:
@@ -70,6 +72,9 @@ class User < ApplicationRecord
   end
 
   before_update :activate, if: Proc.new { |t| t.confirmed_at_changed? and !t.confirmed_at_change[1].nil? }
+
+  has_many :boards, dependent: :destroy
+
 
   def generate_tokens
     self.access_token = generate_jwt_token(ACCESS_TOKEN_DURATION)

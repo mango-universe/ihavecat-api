@@ -30,39 +30,20 @@ class BaseDeviseController < DeviseController
     @current_user = @current_user.decorate
   end
 
-  def authenticate_user_from_access_token!
+  def authenticate_user_from_token!
     token = request.headers['access-token']
-
     raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless token.present?
 
     jwt = JsonWebToken.decode(token)
-    uid = jwt.dig('jti')
+    jti = jwt.dig('jti')
+    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'user_agent').eql?(request.headers['user-agent'])
 
-    if request.headers['uuid'].present?
-      raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'uuid').eql?(request.headers['uuid'])
-    else
-      raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'user_agent').eql?(request.headers['user-agent'])
-    end
-
-    # ActiveRecord::Base.connected_to(role: :writing) do
-      if jwt.dig('data', 'uuid').nil?
-        @current_user = User.find_by(userid: uid, web_access_token: token)
-      else
-        @current_user = User.find_by(userid: uid, mobile_access_token: token)
-        @current_user.uuid = jwt.dig('data', 'uuid') if @current_user.present?
-      end
-    # end
-
+    @current_user = User.find_by(email: jti, mobile_access_token: token)
     raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless @current_user
+
     @current_user.request_ip = request.ip
     @current_user.user_agent = request.user_agent
-    @current_user.platform = (request.headers[:platform] || 'WEB')
     @current_user = @current_user.decorate
-
-    NewRelic::Agent.add_custom_attributes({ userid: @current_user.userid })
-
-    # web 플랫폼의 경우 매장 certification 권한 체크
-    valid_store_permission
   end
 
   def authenticate_user_from_refresh_token!
@@ -70,25 +51,14 @@ class BaseDeviseController < DeviseController
     raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless token.present?
 
     jwt = JsonWebToken.decode(token)
-    uid = jwt.dig('jti')
+    jti = jwt.dig('jti')
+    raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'user_agent').eql?(request.headers['user-agent'])
 
-    if request.headers['uuid'].present?
-      raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'uuid').eql?(request.headers['uuid'])
-    else
-      raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless jwt.dig('data', 'user_agent').eql?(request.headers['user-agent'])
-    end
-
-    if jwt.dig('data', 'uuid').nil?
-      @current_user = User.find_by(userid: uid, web_refresh_token: token)
-    else
-      @current_user = User.find_by(userid: uid, mobile_refresh_token: token)
-      @current_user.uuid = jwt.dig('data', 'uuid')
-    end
-
+    @current_user = User.find_by(email: jti, web_refresh_token: token)
     raise ApiExceptions::CustomException.new(:unauthorized, t('common.messages.invalid_token_response')) unless @current_user
+
     @current_user.request_ip = request.ip
     @current_user.user_agent = request.user_agent
-    @current_user.platform = (request.headers[:platform] || 'WEB')
     @current_user = @current_user.decorate
   end
 
@@ -108,7 +78,7 @@ class BaseDeviseController < DeviseController
   end
 
   def check_api_authorized!
-    authenticate_user_from_access_token!
+    authenticate_user_from_token!
     check_permission
     check_uuid
   end
