@@ -34,6 +34,7 @@ class Board < ApplicationRecord
   belongs_to :user
   belongs_to :category, class_name: 'Code', foreign_key: :category_id, optional: true
 
+  scope :post_open, -> { where(depth: 1, publish: 1) }
 
   private
 
