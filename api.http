@@ -14,7 +14,7 @@
 # @domain = https://dev.ihavecat.net
 
 ### LIVE
-# @domain = https://ihavecat.net
+# @domain = https://api.ihavecat.net
 
 
 #######################################################################
@@ -22,35 +22,28 @@
 #######################################################################
 
 ###
-### 도매
+### 유저
 @content = application/json
-@dome_agent = Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
-@dome_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZWFsaS5uZXQiLCJqdGkiOiJwdXNoZG9tZSIsImlhdCI6MTU5NDM3MDkwNywibmJmIjoxNTk0MzcwOTA3LCJleHAiOjE1OTQ0NTczMDcsImRhdGEiOnsidXVpZCI6IjAwMDAwMDAwLTQ0MzMtM2E1NS1mZmZmLWZmZmY5ZmZmZWQ5OSIsImlwIjoiMTI3LjAuMC4xIiwidXNlcl9hZ2VudCI6Ik1vemlsbGEvNS4wIChMaW51eDsgQW5kcm9pZCA3LjA7IFNBTVNVTkcgU00tRzkzMFQgQnVpbGQvTlJEOTBNKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBTYW1zdW5nQnJvd3Nlci81LjAgQ2hyb21lLzUxLjAuMjcwNC4xMDYgTW9iaWxlIFNhZmFyaS81MzcuMzYiLCJrZXkiOiIifX0.Ei3sd154PdXWggcz0WhMH4APOJIrTOJ-XFRaAHgziqY
-
-# ###
-# ### 소매
-@some_agent = Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
-@some_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJkZWFsaS5uZXQiLCJqdGkiOiJjZWJyIiwiaWF0IjoxNjA2NzMzNzc0LCJuYmYiOjE2MDY3MzM3NzQsImV4cCI6MTYwNjgyMDE3NCwicGFydCI6IlIiLCJkYXRhIjp7InV1aWQiOm51bGwsImlwIjoiMTI3LjAuMC4xIiwidXNlcl9hZ2VudCI6Ik1vemlsbGEvNS4wIChMaW51eDsgQW5kcm9pZCA3LjA7IFNBTVNVTkcgU00tRzkzMFQgQnVpbGQvTlJEOTBNKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBTYW1zdW5nQnJvd3Nlci81LjAgQ2hyb21lLzUxLjAuMjcwNC4xMDYgTW9iaWxlIFNhZmFyaS81MzcuMzYiLCJrZXkiOiIifX0.ZaDsOow7ZRovYGI1YpfDsKNmOxP3SLalK2uCYy8TNAE
+@user_agent = Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
+@access_token = eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJpaGF2ZWNhdC5uZXQiLCJqdGkiOiJoeW9nb2xAbmF2ZXIuY29tIiwiaWF0IjoxNjE4MjQzNDQ3LCJuYmYiOjE2MTgyNDM0NDcsImV4cCI6MTYxODMyOTg0NywiZGF0YSI6eyJpcCI6IjEyNy4wLjAuMSIsInVzZXJfYWdlbnQiOiJNb3ppbGxhLzUuMCAoTGludXg7IEFuZHJvaWQgNy4wOyBTQU1TVU5HIFNNLUc5MzBUIEJ1aWxkL05SRDkwTSkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgU2Ftc3VuZ0Jyb3dzZXIvNS4wIENocm9tZS81MS4wLjI3MDQuMTA2IE1vYmlsZSBTYWZhcmkvNTM3LjM2Iiwia2V5IjoiIn19.PAu0TKsKIQ17ZRv-PuIm6almZBNC5PJqFiXyIflbsDY
 
 
 #######################################################################
 ############################### API ###################################
 #######################################################################
 
-###
-# 로그인
+### 로그인
 POST {{domain}}/api/v1/users/sign_in.json
 Content-Type: application/json
 User-Agent: Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
 Referer: https://partner.sinsangmarket.kr
 
 {
-  "email": "hyogol6@naver.com",
+  "email": "hyogol@naver.com",
   "password": "tt"
 }
 
-###
-# 이메일 검증
+### 이메일 검증
 POST {{domain}}/api/v1/users/validate_email
 Content-Type: application/json
 User-Agent: Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
@@ -60,8 +53,7 @@ Referer: https://partner.sinsangmarket.kr
   "email": "hyogol@naver.com"
 }
 
-###
-# 닉네임 검증
+### 닉네임 검증
 POST {{domain}}/api/v1/users/validate_nickname
 Content-Type: application/json
 User-Agent: Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
@@ -71,8 +63,7 @@ Referer: https://partner.sinsangmarket.kr
   "nickname": "hyogol"
 }
 
-###
-# 회원가입
+### 회원가입
 POST {{domain}}/api/v1/users.json
 Content-Type: application/json
 User-Agent: Mozilla/5.0 (Linux; Android 7.0; SAMSUNG SM-G930T Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/5.0 Chrome/51.0.2704.106 Mobile Safari/537.36
@@ -80,8 +71,45 @@ Referer: https://partner.sinsangmarket.kr
 
 {
   "user": {
-    "email": "hyogol15@naver.com",
+    "email": "hyogol@naver.com",
     "password": "tt",
-    "nickname": "hyogol15"
+    "nickname": "hyogol"
   }
 }
+
+### 게시판 리스트
+GET {{domain}}/api/v1/boards
+Content-Type: {{content}}
+User-Agent: {{user_agent}}
+access-token: {{access_token}}
+
+### 게시판 상세
+GET {{domain}}/api/v1/boards/3
+Content-Type: {{content}}
+User-Agent: {{user_agent}}
+access-token: {{access_token}}
+
+### 게시판 생성
+POST {{domain}}/api/v1/boards
+Content-Type: {{content}}
+User-Agent: {{user_agent}}
+access-token: {{access_token}}
+
+{
+  "board": {
+    "group_id": 3,
+    "title": "title",
+    "body": "body",
+    "tag_list": ["test"]
+  }
+}
+
+
+
+
+
+
+
+
+
+

@@ -14,7 +14,7 @@ Swagger::Docs::Config.register_apis({
                 "title" => "Ihavecat API",
                 "description" => "Ihavecat API",
                 "version" => "1.0.0",
-                "contact" => "hyogol@hotmail.com",
+                "contact" => "hallo7609@gmail.com",
                 "license" => "Apache 2.0",
                 "licenseUrl" => "http://api.apache.org/licenses/LICENSE-2.0.html"
             }
