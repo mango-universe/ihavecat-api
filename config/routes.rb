@@ -39,6 +39,8 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     api_version(1, true) do
+      resources :boards do
+      end
 
     end
   end

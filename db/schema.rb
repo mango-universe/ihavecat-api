@@ -10,7 +10,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_28_163252) do
+ActiveRecord::Schema.define(version: 2021_04_12_143139) do
+
+  create_table "boards", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "group_id"
+    t.integer "depth", default: 1, null: false
+    t.integer "seq", default: 1, null: false
+    t.integer "board_type", default: 0, null: false
+    t.integer "category_id"
+    t.string "title", default: "", null: false
+    t.text "body", null: false
+    t.bigint "likes_count", default: 0, null: false
+    t.bigint "bookmarks_count", default: 0, null: false
+    t.bigint "comments_count", default: 0, null: false
+    t.bigint "answer_count", default: 0, null: false
+    t.string "cached_tag_list"
+    t.boolean "publish", default: true
+    t.text "attachments"
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_boards_on_user_id"
+  end
+
+  create_table "codes", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+    t.integer "parent_id"
+    t.integer "uuid", default: 0, null: false
+    t.string "name", default: "", null: false
+    t.string "eng_name", default: ""
+    t.string "value", default: ""
+    t.string "icon_url"
+    t.integer "position", default: 0, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_codes_on_name"
+    t.index ["parent_id"], name: "index_codes_on_parent_id"
+    t.index ["uuid"], name: "index_codes_on_uuid"
+  end
 
   create_table "posts", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "title"
@@ -18,6 +56,17 @@ ActiveRecord::Schema.define(version: 2021_03_28_163252) do
     t.text "img"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "read_marks", id: :integer, charset: "latin1", force: :cascade do |t|
+    t.string "readable_type", null: false
+    t.integer "readable_id"
+    t.string "reader_type", null: false
+    t.integer "reader_id"
+    t.datetime "timestamp"
+    t.index ["readable_type", "readable_id"], name: "index_read_marks_on_readable"
+    t.index ["reader_id", "reader_type", "readable_type", "readable_id"], name: "read_marks_reader_readable_index", unique: true
+    t.index ["reader_type", "reader_id"], name: "index_read_marks_on_reader"
   end
 
   create_table "roles", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
@@ -105,5 +154,6 @@ ActiveRecord::Schema.define(version: 2021_03_28_163252) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "boards", "users"
   add_foreign_key "taggings", "tags"
 end
